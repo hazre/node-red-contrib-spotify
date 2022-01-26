@@ -19,11 +19,14 @@
             if (pathname.slice(-1) != '/') {
                 pathname += '/';
             }
+
+            const settings = RED.settings;
+            const httpNode = settings.httpNodeRoot.slice(1)
             
             const callback = location.protocol + '//' + 
                             location.hostname + 
                             (location.port ? ':' + location.port : '') + 
-                            pathname + 'spotify-credentials/auth/callback';
+                            pathname + httpNode + 'spotify-credentials/auth/callback';
 
             function updateSpotifyAuthButton() {
                 const v1 = $('#node-config-input-clientId').val();
@@ -67,7 +70,7 @@
                 let scope = $("#node-config-input-scope").val();
                 scope = scope.replace(/\n/g, "%20");
 
-                const url = 'spotify-credentials/auth?id=' + id + '&clientId=' + clientId + "&clientSecret=" + clientSecret + "&scope=" + scope + "&callback=" + encodeURIComponent(callback);
+                const url = httpNode + 'spotify-credentials/auth?id=' + id + '&clientId=' + clientId + "&clientSecret=" + clientSecret + "&scope=" + scope + "&callback=" + encodeURIComponent(callback);
                 $(this).attr('href', url);
                 window.spotifyConfigNodeIntervalId = window.setTimeout(pollSpotifyCredentials, 2000);
             });

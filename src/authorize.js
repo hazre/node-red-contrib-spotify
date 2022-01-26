@@ -21,7 +21,7 @@ module.exports = function (RED) {
         }
     });
 
-    RED.httpAdmin.get('/spotify-credentials/auth', function (req, res) {
+    RED.httpNode.get('/spotify-credentials/auth', function (req, res) {
         if (!req.query.clientId || !req.query.clientSecret ||
             !req.query.id || !req.query.callback) {
             res.send(400);
@@ -54,7 +54,7 @@ module.exports = function (RED) {
         RED.nodes.addCredentials(node_id, credentials);
     });
 
-    RED.httpAdmin.get('/spotify-credentials/auth/callback', function (req, res) {
+    RED.httpNode.get('/spotify-credentials/auth/callback', function (req, res) {
         if (req.query.error) {
             return res.send('spotify.query.error', { error: req.query.error, description: req.query.error_description });
         }
